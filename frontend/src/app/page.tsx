@@ -21,7 +21,7 @@ interface SimilarPlayer {
   "Overall": number;
   "Best Position": string;
   "Club Name": string;
-  [key: string]: any;
+  [key: string]: string | number;
 }
 interface PredictionResult {
   predicted_exact_position: string;
@@ -144,9 +144,9 @@ export default function PlayerAttributeAnalyzer() {
         return featureList.map(feature => ({
           attribute: feature.replace(" Total", "").replace("Goalkeeper ","GK "),
           predicted: features[feature],
-          match1: match1[feature] || 0,
-          match2: match2[feature] || 0,
-          match3: match3[feature] || 0,
+          match1: Number(match1[feature] || 0),
+          match2: Number(match2[feature] || 0),
+          match3: Number(match3[feature] || 0),
         }));
       })()
     : [];
