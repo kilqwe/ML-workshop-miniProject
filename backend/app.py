@@ -14,7 +14,11 @@ app = FastAPI(
 )
 origins = [
     "http://localhost:3000",  # The default port for Next.js
-    "http://localhost:3001",  # Another common port
+    "https://ml-workshop-miniproject.onrender.com",
+    "https://ml-workshop-mini-project.vercel.app/"
+
+    
+
 ]
 
 app.add_middleware(
