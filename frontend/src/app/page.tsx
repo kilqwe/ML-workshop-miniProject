@@ -180,7 +180,7 @@ export default function PlayerAttributeAnalyzer() {
       <div className="text-center py-16 px-6 bg-gray-900">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">Football Player Potential Analyzer</h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto mt-4">
-          Use our AI model to predict a player's rating and discover comparable real-world athletes.
+          Use our AI model to predict a players rating and discover comparable real-world athletes.
         </p>
       </div>
       
@@ -298,7 +298,7 @@ export default function PlayerAttributeAnalyzer() {
                         <CardTitle className="flex items-center gap-2">
                             Profile vs. Ideal {result.predicted_exact_position}
                         </CardTitle>
-                        <CardDescription>How your player's attributes stack up against the average for their predicted position.</CardDescription>
+                        <CardDescription>How your players attributes stack up against the average for their predicted position.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ComparisonAreaChart data={areaChartData} />
