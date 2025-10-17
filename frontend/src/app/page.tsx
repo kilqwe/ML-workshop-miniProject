@@ -32,13 +32,13 @@ interface PredictionResult {
 }
 
 const outfieldFeatureInputs = [
-  'Pace Total', 'Shooting Total', 'Passing Total',
-  'Dribbling Total', 'Defending Total', 'Physicality Total'
+  "Pace Total", "Shooting Total", "Passing Total",
+  "Dribbling Total", "Defending Total", "Physicality Total"
 ];
 
 const goalkeeperFeatureInputs = [
-  'Goalkeeper Diving', 'Goalkeeper Handling', 'Goalkeeper Kicking',
-  'Goalkeeper Positioning', 'Goalkeeper Reflexes'
+  "Goalkeeper Diving", "Goalkeeper Handling", "Goalkeeper Kicking",
+  "Goalkeeper Positioning", "Goalkeeper Reflexes"
 ];
 const getInitialFeatures = (): { [key: string]: number } => {
   const allFeatures = [...outfieldFeatureInputs, ...goalkeeperFeatureInputs];
@@ -85,7 +85,7 @@ export default function PlayerAttributeAnalyzer() {
     setLoading(true);
     setError("");
     setResult(null);
-    const featuresToSend = activeTab === 'outfield'
+    const featuresToSend = activeTab === "outfield"
       ? outfieldFeatureInputs.reduce((acc, key) => ({ ...acc, [key]: features[key] }), {})
       : goalkeeperFeatureInputs.reduce((acc, key) => ({ ...acc, [key]: features[key] }), {});
 
@@ -102,8 +102,13 @@ export default function PlayerAttributeAnalyzer() {
       }
       const data = await res.json();
       setResult(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error){
+        setError(err.message);
+      }else{
+        setError("An unknown error occurred");
+      }
+      
     } finally {
       setLoading(false);
     }
@@ -133,7 +138,7 @@ export default function PlayerAttributeAnalyzer() {
 
   const radarChartData = result && result.similar_players.length >= 3
     ? (() => {
-        const featureList = result.predicted_group === 'GK' ? goalkeeperFeatureInputs : outfieldFeatureInputs;
+        const featureList = result.predicted_group === "GK" ? goalkeeperFeatureInputs : outfieldFeatureInputs;
         const [match1, match2, match3] = result.similar_players;
 
         return featureList.map(feature => ({
@@ -163,7 +168,7 @@ export default function PlayerAttributeAnalyzer() {
     : [];
 
   const areaChartData = result && result.ideal_profile
-    ? (result.predicted_group === 'GK' ? goalkeeperFeatureInputs : outfieldFeatureInputs).map(feature => ({
+    ? (result.predicted_group === "GK" ? goalkeeperFeatureInputs : outfieldFeatureInputs).map(feature => ({
         attribute: feature.replace(" Total", "").replace("Goalkeeper ","GK "),
         PredictedPlayer: features[feature],
         idealPlayer: result.ideal_profile ? Math.round(result.ideal_profile[feature]) : 0,
