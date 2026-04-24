@@ -8,7 +8,7 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-*.pkl          # your ML model file - too large for git
+*.pkl  
 venv/
 .venv/
 
