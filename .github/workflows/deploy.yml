@@ -36,8 +36,8 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://postgres:password@postgres:5432/football_analyzer
-      REDIS_URL: redis://redis:6379
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/postgres_playerpredictor
+      REDIS_URL: redis://localhost:6379
       SECRET_KEY: asjkdhsiahd83272h4jk2iuo
       DEBUG: "True"
 
