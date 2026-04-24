@@ -15,7 +15,7 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: postgres_playerpredictor_user
-          POSTGRES_PASSWORD: vASamRrnM4Mux5m6eEj9kipUks5m1wi4
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: postgres_playerpredictor
         ports:
           - 5432:5432
