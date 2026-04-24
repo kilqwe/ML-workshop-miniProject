@@ -5,8 +5,8 @@ import sys
 import os
 
 # Override env vars before importing app
-os.environ["DATABASE_URL"] = "postgresql://postgres:password@postgres:5432/test_db"
-os.environ["REDIS_URL"] = "redis://redis:6379"
+os.environ["DATABASE_URL"] = "postgresql://postgres:password@localhost:5432/test_db"
+os.environ["REDIS_URL"] = "redis://localhost:6379"
 os.environ["SECRET_KEY"] = "aslkdh54643kjg5j52l"
 os.environ["DEBUG"] = "True"
 
