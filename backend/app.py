@@ -14,11 +14,7 @@ app = FastAPI(
 )
 origins = [
     "http://localhost:3000",  # The default port for Next.js
-    "https://ml-workshop-miniproject.onrender.com",
     "https://ml-workshop-mini-project.vercel.app"
-
-    
-
 ]
 
 app.add_middleware(
@@ -33,19 +29,17 @@ try:
     pipeline_path = "models/fifa_models.pkl"
     trained_pipeline = joblib.load(pipeline_path)
     
-    # NEW: Load the dataframe needed for the similarity search
     df, _, _ = load_and_preprocess("data/cleaned_fifa23.csv") 
     
-    print("✅ Pipeline and DataFrame loaded successfully.")
+    print("Pipeline and DataFrame loaded successfully.")
 except Exception as e:
-    print(f"❌ Error loading assets: {e}")
+    print(f" Error loading assets: {e}")
     trained_pipeline = None
     df = None
 
 # 3. Define the Input Data Model (no changes here)
 class PlayerStats(BaseModel):
     pace_total: Optional[float] = Field(None, alias="Pace Total")
-    # ... (include all the other stats as before) ...
     shooting_total: Optional[float] = Field(None, alias="Shooting Total")
     passing_total: Optional[float] = Field(None, alias="Passing Total")
     dribbling_total: Optional[float] = Field(None, alias="Dribbling Total")
@@ -60,7 +54,7 @@ class PlayerStats(BaseModel):
     goalkeeper_positioning: Optional[float] = Field(None, alias="Goalkeeper Positioning")
     goalkeeper_reflexes: Optional[float] = Field(None, alias="Goalkeeper Reflexes")
 
-# 4. Define the Prediction Endpoint (MODIFIED)
+
 @app.post("/predict")
 async def predict(stats: PlayerStats):
     if not trained_pipeline or df is None:

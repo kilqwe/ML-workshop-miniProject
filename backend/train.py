@@ -10,14 +10,14 @@ if __name__ == "__main__":
     DATA_PATH = "data/cleaned_fifa23.csv"
     
     # 2. RUN THE ENTIRE TRAINING PIPELINE
-    print("🚀 Starting model training pipeline...")
+    print("Starting model training pipeline...")
     df, trained_pipeline = train_full_pipeline(DATA_PATH)
-    print("\n✅ Pipeline training complete!")
+    print("\n Pipeline training complete!")
 
     # 3. SAVE THE PIPELINE ARTIFACTS
     save_path = "models/fifa_models.pkl"
     joblib.dump(trained_pipeline, save_path)
-    print(f"✅ All models, scalers, and encoders saved to {save_path}")
+    print(f" All models, scalers, and encoders saved to {save_path}")
 
     # 4. RUN A DEMONSTRATION
     print("\n--- Running a demonstration ---")
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     
     predicted_group, predicted_rating,predicted_exact_position = predict_player(player_with_partial_stats, loaded_pipeline)
     
-    print("\n--- 📈 Demo Prediction Result (Partial Stats) ---")
+    print("\n--- Demo Prediction Result (Partial Stats) ---")
     print(f"Predicted Position Group: {predicted_group}")
     print(f"Predicted Overall Rating: {predicted_rating}")
     print(f"Predicted Exact Position: {predicted_exact_position}")
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     
     group_full, rating_full, exact_posi = predict_player(super_player_stats, loaded_pipeline)
     
-    print("\n--- 📈 Demo Prediction Result (Full Stats) ---")
+    print("\n---  Demo Prediction Result (Full Stats) ---")
     print(f"Predicted Position Group: {group_full}")
     print(f"Predicted Overall Rating: {rating_full}")
     print(f"Predicted Exact Position: {exact_posi}")
