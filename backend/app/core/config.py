@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from typing import List
 
-class settings(BaseSettings):
+class Settings(BaseSettings):
     APP_NAME: str = "Football Analyzer API"
     VERSION: str = "2.0.0"
     DEBUG: bool = False
@@ -19,3 +19,4 @@ class settings(BaseSettings):
     ]
 
     model_config = {"env_file": ".env"}
+settings = Settings()
