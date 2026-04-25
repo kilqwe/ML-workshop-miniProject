@@ -108,6 +108,7 @@ def train_position_specific_regressors(df, core_stats, gk_stats):
     """Trains a separate Overall rating predictor for each position group."""
     reg_models = {}
     scalers = {}
+    metrics = {}  # ADD THIS
     feature_map = {"FWD": core_stats, "MID": core_stats, "DEF": core_stats, "GK": gk_stats}
     
     print("\n--- Training Position-Specific Regressors ---")
@@ -127,13 +128,16 @@ def train_position_specific_regressors(df, core_stats, gk_stats):
         reg.fit(X_train_scaled, y_train)
         
         y_pred = reg.predict(X_test_scaled)
-        print(f"  - {group} Regressor → R²: {r2_score(y_test, y_pred):.3f}, MAE: {mean_absolute_error(y_test, y_pred):.2f}")
+        r2 = r2_score(y_test, y_pred)
+        mae = mean_absolute_error(y_test, y_pred)
+        print(f"  - {group} Regressor → R²: {r2:.3f}, MAE: {mae:.2f}")
+        
+        metrics[group] = {"r2": round(r2, 3), "mae": round(mae, 2)}  # ADD THIS
               
         reg_models[group] = reg
         scalers[group] = scaler
         
-    return reg_models, scalers
-
+    return reg_models, scalers, metrics  # ADD metrics to return
 # ==================================================
 # 4) Similarity and Centroid Functions
 # ==================================================
@@ -182,8 +186,9 @@ def train_full_pipeline(path: str):
     print("--- Training Classifiers ---")
     gk_clf, gk_le, gk_scaler = train_gk_classifier(df, gk_stats)
     group_clf, group_le, core_scaler = train_grouped_position_classifier(df, core_stats)
-    reg_models, reg_scalers = train_position_specific_regressors(df, core_stats, gk_stats)
+    reg_models, reg_scalers, reg_metrics = train_position_specific_regressors(df, core_stats, gk_stats)  # UPDATED
     exact_pos_models, exact_pos_les = train_exact_position_classifiers(df, core_stats)
+    
     pipeline_artifacts = {
         "gk_classifier": gk_clf, "gk_label_encoder": gk_le, "gk_scaler": gk_scaler,
         "group_classifier": group_clf, "group_label_encoder": group_le, "core_scaler": core_scaler,
@@ -193,6 +198,7 @@ def train_full_pipeline(path: str):
         "exact_pos_models": exact_pos_models,
         "exact_pos_label_encoders": exact_pos_les,
         "raw_centroids": raw_centroids,
+        "reg_metrics": reg_metrics,  # ADD THIS
     }
     return df, pipeline_artifacts
 

@@ -1,12 +1,8 @@
 import joblib
 from models import train_full_pipeline, predict_player
 
-# ==================================================
-# Main Training and Saving Block
-# ==================================================
 if __name__ == "__main__":
-    # 1. DEFINE DATA PATH
-    # --- IMPORTANT: REPLACE WITH THE ACTUAL PATH TO YOUR CSV FILE ---
+
     DATA_PATH = "data/cleaned_fifa23.csv"
     
     # 2. RUN THE ENTIRE TRAINING PIPELINE

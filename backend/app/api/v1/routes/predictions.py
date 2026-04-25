@@ -92,3 +92,17 @@ async def get_history(db: Session = Depends(get_db)):
         PredictionHistory.created_at.desc()
     ).limit(20).all()
     return history
+
+@router.get("/predictions/metrics")
+async def get_model_metrics(request: Request):
+    pipeline = request.app.state.pipeline
+    if not pipeline:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+    
+    return {
+        "regressor_metrics": pipeline.get("reg_metrics", {}),
+        "description": {
+            "r2": "R² score (1.0 = perfect, higher is better)",
+            "mae": "Mean Absolute Error in rating points (lower is better)"
+        }
+    }
