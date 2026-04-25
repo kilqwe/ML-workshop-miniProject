@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 from typing import List
 
-class Settings(BaseSettings):
+class settings(BaseSettings):
     APP_NAME: str = "Football Analyzer API"
     VERSION: str = "2.0.0"
     DEBUG: bool = False
