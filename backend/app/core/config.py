@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from typing import List
 
 class Settings(BaseSettings):
     APP_NAME: str = "Football Analyzer API"
@@ -12,12 +13,9 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    ALLOWED_ORIGINS: list = [
+    ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",
         "https://ml-workshop-mini-project.vercel.app"
     ]
 
-    class Config:
-        env_file = ".env"
-
-settings = Settings()
+    model_config = {"env_file": ".env"}
