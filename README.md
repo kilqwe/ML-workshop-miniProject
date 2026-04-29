@@ -180,8 +180,8 @@ curl -X POST https://ml-workshop-miniproject.onrender.com/api/v1/predictions \
 
 ```bash
 # Clone the repo
-git clone https://github.com/kilqwe/ML-workshop-miniProject
-cd ML-workshop-miniProject
+git clone https://github.com/kilqwe/Football-Analytics-Engine
+cd Football-Analytics-Engine
 
 # Add environment variables
 cp backend/.env.example backend/.env
@@ -221,7 +221,7 @@ DEBUG=True
 ## Project Structure
 
 ```
-ML-workshop-miniProject/
+Football-Analytics-Engine/
 ├── backend/
 │   ├── app/
 │   │   ├── api/v1/routes/
@@ -290,4 +290,4 @@ pytest tests/ -v
 
 ---
 
-*Built with FastAPI, Next.js, and scikit-learn. Trained on FIFA 23 dataset.*
+*Built with FastAPI, Next.js and scikit-learn. Trained on FIFA 23 dataset.*
