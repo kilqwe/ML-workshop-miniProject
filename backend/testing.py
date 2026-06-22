@@ -3,9 +3,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ----------------------------
-# 1) Load saved models
-# ----------------------------
+# Load saved models
+
 models_dict = joblib.load("models/fifa_models.pkl")
 
 reg_models = models_dict["reg_models"]
@@ -23,9 +22,9 @@ gk_scaler = models_dict["gk_scaler"]
 le_binary = label_encoders["binary"]
 le_group = label_encoders["group"]
 
-# ----------------------------
+# 
 # Normalize columns & features
-# ----------------------------
+# 
 training_columns = [col.strip() for col in training_columns]
 core_stats = [col.strip() for col in core_stats]
 gk_stats = [col.strip() for col in gk_stats]
@@ -35,9 +34,8 @@ raw_means = {k.strip(): v for k, v in raw_means.items()}
 col_index_map = {col: i for i, col in enumerate(training_columns)}
 
 
-# ----------------------------
-# 2) Build full player vector
-# ----------------------------
+# Build full player vector
+
 def build_full_vector(player_input):
     """
     Build a full-length feature vector using training_columns,
@@ -49,9 +47,9 @@ def build_full_vector(player_input):
     ]).reshape(1, -1)
 
 
-# ----------------------------
-# 3) Assign exact position via centroid
-# ----------------------------
+
+# Assign exact position via centroid
+
 def assign_position_centroid(player_vec, pos_group):
     group_map = {
         "DEF": ["CB", "LB", "RB", "LWB", "RWB"],
@@ -76,12 +74,11 @@ def assign_position_centroid(player_vec, pos_group):
     return min(dists, key=dists.get)
 
 
-# ----------------------------
-# 4) Radar chart
-# ----------------------------
+# Radar chart
+
 def load_radar_chart(position, input_stats, core_stats, gk_stats):
     df = pd.read_csv("data/cleaned_fifa23.csv")
-    df.columns = df.columns.str.strip()  # <-- strip spaces in CSV too
+    df.columns = df.columns.str.strip()  
 
     features = gk_stats if position == "GK" else core_stats
 
@@ -111,9 +108,8 @@ def load_radar_chart(position, input_stats, core_stats, gk_stats):
 
 
 
-# ----------------------------
-# 5) Predict single player
-# ----------------------------
+#  Predict single player
+
 def predict_single_player(player_input):
     full_vector = build_full_vector(player_input)
 
@@ -155,9 +151,9 @@ def predict_single_player(player_input):
     }
 
 
-# ----------------------------
-# 6) Batch prediction function
-# ----------------------------
+
+# Batch prediction function
+
 def predict_players(player_inputs):
     results = []
     for p in player_inputs:
@@ -174,9 +170,9 @@ def predict_players(player_inputs):
     return results
 
 
-# ----------------------------
-# 7) Example usage
-# ----------------------------
+
+# Example usage
+
 players = [
     {
         "Pace Total": 90,

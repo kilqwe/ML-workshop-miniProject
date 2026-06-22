@@ -41,7 +41,7 @@ def load_and_preprocess_data(path: str):
     # Compute raw means for imputing missing stats later
     raw_means = features.mean().to_dict()
 
-    print("✅ Data loaded and preprocessed successfully.")
+    print(" Data loaded and preprocessed successfully.")
 
     return (
         df,           # full dataframe

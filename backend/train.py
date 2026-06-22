@@ -5,22 +5,22 @@ if __name__ == "__main__":
 
     DATA_PATH = "data/cleaned_fifa23.csv"
     
-    # 2. RUN THE ENTIRE TRAINING PIPELINE
+    # RUN THE ENTIRE TRAINING PIPELINE
     print("Starting model training pipeline...")
     df, trained_pipeline = train_full_pipeline(DATA_PATH)
     print("\n Pipeline training complete!")
 
-    # 3. SAVE THE PIPELINE ARTIFACTS
+    # SAVE THE PIPELINE ARTIFACTS
     save_path = "models/fifa_models.pkl"
     joblib.dump(trained_pipeline, save_path)
     print(f" All models, scalers, and encoders saved to {save_path}")
 
-    # 4. RUN A DEMONSTRATION
+    # RUN A DEMONSTRATION
     print("\n--- Running a demonstration ---")
     loaded_pipeline = joblib.load(save_path)
     print("   - Successfully loaded saved pipeline.")
 
-    # --- Demo 1: Player with only a few key stats ---
+    #  Player with only a few key stats 
     player_with_partial_stats = {
         "Shooting Total": 98,
         "Dribbling Total": 95,
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     print(f"Predicted Overall Rating: {predicted_rating}")
     print(f"Predicted Exact Position: {predicted_exact_position}")
 
-    # --- Demo 2: Player with full stats ---
+    # Player with full stats
     super_player_stats = {
         "Pace Total": 95, "Shooting Total": 95, "Passing Total": 90,
         "Dribbling Total": 98, "Defending Total": 45, "Physicality Total": 85,

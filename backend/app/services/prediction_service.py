@@ -11,9 +11,8 @@ import warnings
 # Suppress warnings for a cleaner output
 warnings.filterwarnings('ignore')
 
-# ==================================================
-# 1) Helper Functions
-# ==================================================
+#  Helper Functions
+
 def simplify_position(pos: str) -> str:
     """Groups detailed positions into broader categories."""
     if pos in ["CB", "LB", "RB", "RWB", "LWB"]:
@@ -33,9 +32,9 @@ def simplify_gk(pos: str) -> str:
     else:
         return "OUTFIELD"
 
-# ==================================================
-# 2) Load & Preprocess Data
-# ==================================================
+
+# Load & Preprocess Data
+
 def load_and_preprocess(path: str):
     """Loads CSV, cleans column names, and defines feature sets."""
     df = pd.read_csv(path)
@@ -53,9 +52,9 @@ def load_and_preprocess(path: str):
     df["Group"] = df["Best Position"].apply(simplify_position)
     return df, core_stats, gk_stats
 
-# ==================================================
-# 3) Training Functions (with Scaling)
-# ==================================================
+
+# Training Functions (with Scaling)
+
 def train_gk_classifier(df, gk_stats):
     """Trains a classifier to distinguish GKs from Outfield players."""
     X = df[gk_stats].values
@@ -138,9 +137,9 @@ def train_position_specific_regressors(df, core_stats, gk_stats):
         scalers[group] = scaler
         
     return reg_models, scalers, metrics  # ADD metrics to return
-# ==================================================
-# 4) Similarity and Centroid Functions
-# ==================================================
+
+# Similarity and Centroid Functions
+
 def build_position_centroids(df, core_stats, gk_stats):
     scaler = StandardScaler()
     scaled_core_df = pd.DataFrame(scaler.fit_transform(df[core_stats]), columns=core_stats)
@@ -172,9 +171,9 @@ def find_similar_players(df, user_input: dict, position_group: str,
     
     return df_pos.sort_values("Similarity", ascending=True).head(top_n)
 
-# ==================================================
-# 5) Master Pipeline Functions
-# ==================================================
+
+# Master Pipeline Functions
+
 def train_full_pipeline(path: str):
     """Loads data and trains all models, returning all artifacts."""
     df, core_stats, gk_stats = load_and_preprocess(path)
@@ -201,8 +200,6 @@ def train_full_pipeline(path: str):
         "reg_metrics": reg_metrics,  # ADD THIS
     }
     return df, pipeline_artifacts
-
-# In models.py, add this new function
 
 def train_exact_position_classifiers(df, core_stats):
     """Trains a separate classifier for each group (FWD, MID, DEF) to predict the exact position."""
@@ -281,10 +278,10 @@ def predict_player(user_input: dict, pipeline: dict):
         input_core_scaled = core_scaler.transform(input_df[pipeline["core_stats"]])
         group_pred = group_clf.predict(input_core_scaled)
         position_group = group_le.inverse_transform(group_pred)[0]
-    # --- ADD THIS ELSE BLOCK ---
+
     else:
         position_group = "GK"
-    # ---------------------------
+
 
     # Step 3: Predict the EXACT position
     predicted_exact_position = position_group

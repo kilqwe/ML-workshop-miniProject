@@ -3,10 +3,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional, List
 import joblib
-# --- MODIFIED IMPORTS ---
 from models import predict_player, find_similar_players, load_and_preprocess
 
-# 1. Initialize the FastAPI App
+# Initialize the FastAPI App
 app = FastAPI(
     title="FIFA Player Rating API",
     description="An API to predict a player's rating, position, and find similar players.",
@@ -24,7 +23,7 @@ app.add_middleware(
     allow_methods=["*"], # Allow all methods (GET, POST, etc.)
     allow_headers=["*"], # Allow all headers
 )
-# 2. Load the Pipeline and the DataFrame
+# Load the Pipeline and the DataFrame
 try:
     pipeline_path = "models/fifa_models.pkl"
     trained_pipeline = joblib.load(pipeline_path)
@@ -37,7 +36,7 @@ except Exception as e:
     trained_pipeline = None
     df = None
 
-# 3. Define the Input Data Model (no changes here)
+# Define the Input Data Model 
 class PlayerStats(BaseModel):
     pace_total: Optional[float] = Field(None, alias="Pace Total")
     shooting_total: Optional[float] = Field(None, alias="Shooting Total")
@@ -66,10 +65,10 @@ async def predict(stats: PlayerStats):
              raise HTTPException(status_code=400, detail="No player stats provided.")
 
 
-        # Step 1: Get the main prediction
+        # Get the main prediction
         predicted_group, predicted_rating, predicted_exact_position = predict_player(user_input, trained_pipeline)
         
-        # Step 2: Find similar players
+        # Find similar players
         similar_players_df = find_similar_players(
             df,
             user_input,
@@ -83,11 +82,11 @@ async def predict(stats: PlayerStats):
             stat_columns = trained_pipeline["gk_stats"]
         else:
             stat_columns = trained_pipeline["core_stats"]
-        # Step 3: Format the similar players into a clean list of dictionaries
+        # Format the similar players into a clean list of dictionaries
         response_columns = ["Full Name", "Overall", "Best Position", "Club Name"] + stat_columns
         similar_players = similar_players_df[response_columns].to_dict(orient="records")
 
-        # Step 4: Return the combined result
+        # Return the combined result
         return {
             "predicted_rating": predicted_rating,
             "predicted_group": predicted_group,
